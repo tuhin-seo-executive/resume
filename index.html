@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tuhin Das — SEO Executive</title>
+<title>Tuhin Das – SEO Executive | Technical & Local SEO Expert</title>
+<meta property="og:description" content="Tuhin Das is an SEO Executive with 5+ years in technical, on-page, off-page and local SEO. Explore his experience, skills and projects in organic search." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -72,8 +73,25 @@
     font-size: 14px;
     color: var(--ink-soft);
   }
-  .nav-links a{ text-decoration:none; }
+  .nav-links a{
+    text-decoration:none;
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.2s ease;
+  }
+  .nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height: 2px;
+    background: var(--gold-bright);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
   .nav-links a:hover{ color: var(--navy); }
+  .nav-links a.active{ color: var(--navy); }
+  .nav-links a.active::after{ transform: scaleX(1); }
   @media (max-width: 640px){
     .nav-links{ display:none; }
   }
@@ -134,6 +152,18 @@
     animation-delay: 1.9s;
   }
   @keyframes rise{ to{ opacity:1; transform: translateY(0); } }
+  @keyframes loadUp{ from{ opacity:0; transform: translateY(14px); } to{ opacity:1; transform: translateY(0); } }
+
+  /* Scroll-triggered reveal */
+  .reveal{
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .reveal.in-view{
+    opacity: 1;
+    transform: translateY(0);
+  }
   .result-url{
     font-size: 13px;
     color: #1a7a4c;
@@ -159,23 +189,31 @@
     font-weight: 500;
     letter-spacing: -0.5px;
     margin: 28px 0 6px;
+    animation: loadUp 0.7s ease both;
+    animation-delay: 0.55s;
   }
   .hero-role{
     font-size: 16px;
     color: var(--steel);
     font-weight: 600;
     margin-bottom: 18px;
+    animation: loadUp 0.7s ease both;
+    animation-delay: 0.65s;
   }
   .hero-summary{
     font-size: 16.5px;
     color: var(--ink-soft);
     max-width: 500px;
     margin-bottom: 26px;
+    animation: loadUp 0.7s ease both;
+    animation-delay: 0.75s;
   }
   .hero-cta{
     display:flex;
     gap: 14px;
     flex-wrap: wrap;
+    animation: loadUp 0.7s ease both;
+    animation-delay: 0.85s;
   }
   .btn{
     display:inline-flex;
@@ -187,22 +225,27 @@
     font-weight: 600;
     text-decoration:none;
     border: 1px solid transparent;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
   }
   .btn-primary{
     background: var(--navy);
     color: #fff;
   }
-  .btn-primary:hover{ background: #10192c; }
+  .btn-primary:hover{ background: #10192c; transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(27,42,68,0.5); }
+  .btn-primary:active{ transform: translateY(0); box-shadow: none; }
   .btn-ghost{
     border-color: var(--line);
     color: var(--ink);
     background: transparent;
   }
-  .btn-ghost:hover{ border-color: var(--steel); color: var(--steel); }
+  .btn-ghost:hover{ border-color: var(--steel); color: var(--steel); transform: translateY(-2px); }
+  .btn-ghost:active{ transform: translateY(0); }
 
   .photo-frame{
     position: relative;
     width: 100%;
+    animation: loadUp 0.8s ease both;
+    animation-delay: 0.45s;
   }
   .photo-frame img{
     width: 100%;
@@ -210,6 +253,8 @@
     border-radius: 4px;
     border: 1px solid var(--line);
     box-shadow: 0 18px 40px -18px rgba(20,32,58,0.35);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    will-change: transform;
   }
   .photo-tag{
     position: absolute;
@@ -315,6 +360,15 @@
     margin-left: 4px;
     padding-left: 32px;
   }
+  .tl-progress{
+    position: absolute;
+    left: -2px;
+    top: 0;
+    width: 2px;
+    height: 0%;
+    background: var(--gold-bright);
+    transition: height 0.1s linear;
+  }
   .tl-item{
     position: relative;
     padding-bottom: 40px;
@@ -328,6 +382,10 @@
     border-radius: 50%;
     background: var(--bg);
     border: 2px solid var(--steel);
+    transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  }
+  .tl-item.in-view .tl-dot{
+    transform: scale(1.25);
   }
   .tl-item.current .tl-dot{
     background: var(--gold-bright);
@@ -441,6 +499,14 @@
   @media (prefers-reduced-motion: reduce){
     .caret{ animation: none; }
     .result-card{ animation: none; opacity: 1; transform: none; }
+    .hero-name, .hero-role, .hero-summary, .hero-cta, .photo-frame{
+      animation: none; opacity: 1; transform: none;
+    }
+    .reveal{ opacity: 1; transform: none; transition: none; }
+    .photo-frame img{ transition: none; }
+    .btn-primary:hover, .btn-ghost:hover{ transform: none; }
+    .tl-dot{ transition: none; }
+    .tl-item.in-view .tl-dot{ transform: none; }
   }
 
   a:focus-visible, .kw:focus-visible{
@@ -547,6 +613,7 @@
       <div class="section-index">03</div>
     </div>
     <div class="timeline">
+      <div class="tl-progress" id="tlProgress"></div>
 
       <div class="tl-item current">
         <div class="tl-dot"></div>
@@ -681,6 +748,89 @@
     }
   }
   type();
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- Scroll-triggered reveal ----
+  const revealTargets = Array.from(document.querySelectorAll(
+    '.section-head, .about-text, .cloud, .tools-row, .tl-item, .edu-item, .cert-list, .strength-list, .contact-lead, .contact-links'
+  ));
+  revealTargets.forEach(elm => elm.classList.add('reveal'));
+
+  if('IntersectionObserver' in window && !reduceMotion){
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    revealTargets.forEach(elm => revealObserver.observe(elm));
+  } else {
+    revealTargets.forEach(elm => elm.classList.add('in-view'));
+  }
+
+  // ---- Nav scrollspy ----
+  const navLinks = Array.from(document.querySelectorAll('.nav-links a'));
+  const sections = navLinks
+    .map(link => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
+
+  if('IntersectionObserver' in window && sections.length){
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = '#' + entry.target.id;
+        const link = navLinks.find(a => a.getAttribute('href') === id);
+        if(!link) return;
+        if(entry.isIntersecting){
+          navLinks.forEach(a => a.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    sections.forEach(sec => spyObserver.observe(sec));
+  }
+
+  // ---- Timeline fill-on-scroll ----
+  const timelineEl = document.querySelector('.timeline');
+  const tlProgressEl = document.getElementById('tlProgress');
+  function updateTimelineProgress(){
+    if(!timelineEl || !tlProgressEl) return;
+    const rect = timelineEl.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const startLine = vh * 0.8;
+    const span = rect.height + vh * 0.4;
+    let progress = (startLine - rect.top) / span;
+    progress = Math.max(0, Math.min(1, progress));
+    tlProgressEl.style.height = (progress * 100) + '%';
+  }
+  if(!reduceMotion){
+    window.addEventListener('scroll', () => requestAnimationFrame(updateTimelineProgress), { passive: true });
+    window.addEventListener('resize', updateTimelineProgress);
+    updateTimelineProgress();
+  } else if(tlProgressEl){
+    tlProgressEl.style.display = 'none';
+  }
+
+  // ---- Photo tilt gesture (pointer devices only) ----
+  const heroEl = document.querySelector('.hero');
+  const photoImg = document.querySelector('.photo-frame img');
+  if(heroEl && photoImg && window.matchMedia('(hover: hover) and (pointer: fine)').matches && !reduceMotion){
+    heroEl.addEventListener('mousemove', (e) => {
+      const rect = photoImg.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+      const rotateY = Math.max(-1, Math.min(1, dx)) * 8;
+      const rotateX = Math.max(-1, Math.min(1, dy)) * -8;
+      photoImg.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+    heroEl.addEventListener('mouseleave', () => {
+      photoImg.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg)';
+    });
+  }
 </script>
 
 </body>
