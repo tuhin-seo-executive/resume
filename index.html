@@ -733,6 +733,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .whatsapp-float svg{ width: 26px; height: 26px; }
   }
 
+  /* ---------- Cursor follower ---------- */
+  .cursor-follower{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 26px;
+    height: 26px;
+    border: 1.5px solid var(--steel);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  }
+  .cursor-follower.is-active{ opacity: 1; }
+  .cursor-follower.is-hovering{
+    width: 46px;
+    height: 46px;
+    border-color: var(--gold-bright);
+    background: rgba(201,154,62,0.08);
+  }
+  @media (hover: none), (pointer: coarse){
+    .cursor-follower{ display: none; }
+  }
+
   .call-float{
     position: fixed;
     bottom: 24px;
@@ -854,7 +880,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section id="skills">
   <div class="wrap">
     <div class="section-head">
-      <h2 class="section-title">Core Skills</h2>
+      <h2 class="section-title">Core skills</h2>
       <div class="section-index">02</div>
     </div>
     <div class="cloud">
@@ -968,7 +994,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section id="education">
   <div class="wrap">
     <div class="section-head">
-      <h2 class="section-title">Education & Training</h2>
+      <h2 class="section-title">Education & training</h2>
       <div class="section-index">04</div>
     </div>
     <div class="grid-2">
@@ -985,7 +1011,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </div>
       <div>
-        <div class="subtle-label">Certifications & Training</div>
+        <div class="subtle-label">Certifications & training</div>
         <ul class="cert-list">
           <li>Digital Marketing</li>
           <li>Developing Soft Skills and Personality</li>
@@ -1062,6 +1088,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </footer>
+
+<div class="cursor-follower" id="cursorFollower" aria-hidden="true"></div>
+
+<a class="whatsapp-float" href="https://wa.me/917687070843" target="_blank" rel="noopener noreferrer" aria-label="Chat with Tuhin Das on WhatsApp">
+  <span class="whatsapp-ping"></span>
+  <svg width="30" height="30" viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.223.606 4.36 1.756 6.24L4 29l7.94-1.72A11.94 11.94 0 0 0 16.004 27C22.63 27 28 21.627 28 15S22.63 3 16.004 3zm0 21.75c-1.94 0-3.84-.52-5.49-1.5l-.394-.234-4.71 1.02 1.03-4.59-.257-.41A9.71 9.71 0 0 1 6.25 15c0-5.376 4.377-9.75 9.754-9.75 5.375 0 9.746 4.374 9.746 9.75s-4.371 9.75-9.746 9.75zm5.35-7.302c-.293-.147-1.734-.855-2.003-.953-.269-.098-.465-.147-.66.147-.196.294-.758.953-.929 1.15-.171.196-.342.22-.635.073-.293-.147-1.236-.455-2.354-1.452-.87-.776-1.457-1.734-1.628-2.027-.171-.294-.018-.453.129-.6.132-.132.293-.343.44-.514.147-.171.196-.294.294-.49.098-.196.049-.367-.024-.514-.073-.147-.66-1.59-.904-2.178-.238-.573-.48-.495-.66-.504l-.562-.01c-.196 0-.514.073-.783.367-.269.294-1.027 1.004-1.027 2.448 0 1.444 1.052 2.84 1.198 3.036.147.196 2.07 3.16 5.017 4.432.701.303 1.248.484 1.674.62.703.224 1.343.192 1.849.117.564-.084 1.734-.709 1.979-1.393.245-.685.245-1.271.171-1.393-.073-.123-.269-.196-.562-.343z"/></svg>
+</a>
+
+<a class="call-float" href="tel:+917687070843" aria-label="Call Tuhin Das">
+  <span class="call-ping"></span>
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
+</a>
 
 <script>
   const text = "tuhin das seo executive";
@@ -1158,17 +1196,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       photoImg.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg)';
     });
   }
+
+  // ---- Cursor follower (pointer devices only) ----
+  const cursorEl = document.getElementById('cursorFollower');
+  if(cursorEl && window.matchMedia('(hover: hover) and (pointer: fine)').matches && !reduceMotion){
+    let mouseX = 0, mouseY = 0, curX = 0, curY = 0, started = false;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if(!started){
+        started = true;
+        curX = mouseX;
+        curY = mouseY;
+        cursorEl.classList.add('is-active');
+      }
+    });
+    document.addEventListener('mouseleave', () => cursorEl.classList.remove('is-active'));
+    document.addEventListener('mouseenter', () => { if(started) cursorEl.classList.add('is-active'); });
+
+    function followCursor(){
+      curX += (mouseX - curX) * 0.16;
+      curY += (mouseY - curY) * 0.16;
+      cursorEl.style.left = curX + 'px';
+      cursorEl.style.top = curY + 'px';
+      requestAnimationFrame(followCursor);
+    }
+    requestAnimationFrame(followCursor);
+
+    const hoverSelector = 'a, button, summary, .kw, input, textarea';
+    document.addEventListener('mouseover', (e) => {
+      if(e.target.closest(hoverSelector)) cursorEl.classList.add('is-hovering');
+    });
+    document.addEventListener('mouseout', (e) => {
+      if(e.target.closest(hoverSelector)) cursorEl.classList.remove('is-hovering');
+    });
+  } else if(cursorEl){
+    cursorEl.style.display = 'none';
+  }
 </script>
-
-<a class="whatsapp-float" href="https://wa.me/917687070843" target="_blank" rel="noopener noreferrer" aria-label="Chat with Tuhin Das on WhatsApp">
-  <span class="whatsapp-ping"></span>
-  <svg width="30" height="30" viewBox="0 0 32 32" fill="#fff" aria-hidden="true"><path d="M16.004 3C9.377 3 4 8.373 4 15c0 2.223.606 4.36 1.756 6.24L4 29l7.94-1.72A11.94 11.94 0 0 0 16.004 27C22.63 27 28 21.627 28 15S22.63 3 16.004 3zm0 21.75c-1.94 0-3.84-.52-5.49-1.5l-.394-.234-4.71 1.02 1.03-4.59-.257-.41A9.71 9.71 0 0 1 6.25 15c0-5.376 4.377-9.75 9.754-9.75 5.375 0 9.746 4.374 9.746 9.75s-4.371 9.75-9.746 9.75zm5.35-7.302c-.293-.147-1.734-.855-2.003-.953-.269-.098-.465-.147-.66.147-.196.294-.758.953-.929 1.15-.171.196-.342.22-.635.073-.293-.147-1.236-.455-2.354-1.452-.87-.776-1.457-1.734-1.628-2.027-.171-.294-.018-.453.129-.6.132-.132.293-.343.44-.514.147-.171.196-.294.294-.49.098-.196.049-.367-.024-.514-.073-.147-.66-1.59-.904-2.178-.238-.573-.48-.495-.66-.504l-.562-.01c-.196 0-.514.073-.783.367-.269.294-1.027 1.004-1.027 2.448 0 1.444 1.052 2.84 1.198 3.036.147.196 2.07 3.16 5.017 4.432.701.303 1.248.484 1.674.62.703.224 1.343.192 1.849.117.564-.084 1.734-.709 1.979-1.393.245-.685.245-1.271.171-1.393-.073-.123-.269-.196-.562-.343z"/></svg>
-</a>
-
-<a class="call-float" href="tel:+917687070843" aria-label="Call Tuhin Das">
-  <span class="call-ping"></span>
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
-</a>
 
 </body>
 </html>
